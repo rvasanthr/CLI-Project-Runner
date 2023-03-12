@@ -8,7 +8,9 @@ const program = require('caporal');
 // Caporal code specific to our project
 program.version('0.1.0')
     .argument('[file-name]', 'Name of the file to execute')
-    .action((args) => {
+    .action(({ fileName }) => {
+        // If there is no fileName given by user, use index.js
+        const name = fileName || 'index.js';
         // Custom function for handling on('add')
         const start = debounce(() => {
             console.log("Starting User's Program");
