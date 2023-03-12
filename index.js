@@ -3,12 +3,21 @@
 const debounce = require('lodash.debounce');
 // Require in chokidar
 const chokidar = require('chokidar');
+// Adding Caporal
+const program = require('caporal');
+// Caporal code specific to our project
+program.version('0.1.0')
+    .argument('[file-name]', 'Name of the file to execute')
+    .action((args) => {
+        console.log(args);
+    });
+program.parse(process.argv);
 // Custom function for handling on('add')
-const start = debounce(() => {
-    console.log('Starting User\'s Program');
-}, 180);
-// One-liner for current directory
-chokidar.watch('.')
-    .on('add', start)
-    .on('change', () => console.log('File Changed'))
-    .on('unlink', () => console.log('File Unlinked'));
+// const start = debounce(() => {
+//     console.log('Starting User\'s Program');
+// }, 200);
+// // One-liner for current directory
+// chokidar.watch('.')
+//     .on('add', start)
+//     .on('change', () => console.log('File Changed'))
+//     .on('unlink', () => console.log('File Unlinked'));
