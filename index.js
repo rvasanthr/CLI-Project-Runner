@@ -9,15 +9,14 @@ const program = require('caporal');
 program.version('0.1.0')
     .argument('[file-name]', 'Name of the file to execute')
     .action((args) => {
-        console.log(args);
+        // Custom function for handling on('add')
+        const start = debounce(() => {
+            console.log("Starting User's Program");
+        }, 200);
+        // One-liner for current directory
+        chokidar.watch('.')
+            .on('add', start)
+            .on('change', start)
+            .on('unlink', start);
     });
 program.parse(process.argv);
-// Custom function for handling on('add')
-// const start = debounce(() => {
-//     console.log('Starting User\'s Program');
-// }, 200);
-// // One-liner for current directory
-// chokidar.watch('.')
-//     .on('add', start)
-//     .on('change', () => console.log('File Changed'))
-//     .on('unlink', () => console.log('File Unlinked'));
