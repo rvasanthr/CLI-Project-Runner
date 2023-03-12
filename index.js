@@ -22,12 +22,20 @@ program.version('0.1.0')
         } catch (error) {
             throw new Error(`Could not find the file "${name}"`);
         }
+        // process is a global variable in node so using a different name
+        let ourProcess;
         // Custom function for handling on('add')
         const start = debounce(() => {
+            // If our exists, kill it
+            if (ourProcess) {
+                console.log('Killing process.');
+                ourProcess.kill();
+            }
             // Executes the js code provided
-            spawn('node', [name], { stdio: 'inherit' });
+            console.log('Starting process...');
+            ourProcess = spawn('node', [name], { stdio: 'inherit' });
             // console.log("Starting User's Program");
-        }, 450);
+        }, 200);
         // One-liner for current directory
         chokidar.watch('.')
             .on('add', start)
