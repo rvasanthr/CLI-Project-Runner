@@ -7,6 +7,8 @@ const chokidar = require('chokidar');
 const program = require('caporal');
 // Adding File System
 const fs = require('fs');
+// Adding child_process to use spawn
+const { spawn } = require('child_process');
 // Caporal code specific to our project
 program.version('0.1.0')
     .argument('[file-name]', 'Name of the file to execute')
@@ -22,8 +24,10 @@ program.version('0.1.0')
         }
         // Custom function for handling on('add')
         const start = debounce(() => {
-            console.log("Starting User's Program");
-        }, 200);
+            // Executes the js code provided
+            spawn('node', [name], { stdio: 'inherit' });
+            // console.log("Starting User's Program");
+        }, 450);
         // One-liner for current directory
         chokidar.watch('.')
             .on('add', start)
