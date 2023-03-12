@@ -9,6 +9,8 @@ const program = require('caporal');
 const fs = require('fs');
 // Adding child_process to use spawn
 const { spawn } = require('child_process');
+// Adding chalk for colouring output
+const chalk = require('chalk');
 // Caporal code specific to our project
 program.version('0.1.0')
     .argument('[file-name]', 'Name of the file to execute')
@@ -28,14 +30,15 @@ program.version('0.1.0')
         const start = debounce(() => {
             // If our exists, kill it
             if (ourProcess) {
-                console.log('Killing process.');
+                console.log(chalk.inverse('Killing process.'));
+
                 ourProcess.kill();
             }
             // Executes the js code provided
-            console.log('Starting process...');
+            console.log(chalk.inverse('Starting process...'));
             ourProcess = spawn('node', [name], { stdio: 'inherit' });
             // console.log("Starting User's Program");
-        }, 200);
+        }, 250);
         // One-liner for current directory
         chokidar.watch('.')
             .on('add', start)
